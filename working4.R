@@ -140,3 +140,31 @@ pred
 
 pred<- predict(reg.model,newdata=data.frame(Waist=c(76.85,82)))
 pred
+
+##Error computation
+pred_E<-predict(reg.model)
+Error<-data.frame(wcat_data,"Pred"= pred_E,"Error"=wcat_data$AT-pred_E)
+Error
+
+
+#Build model on Cars data
+
+cars <- read.csv(file.choose())
+
+head(cars)
+dim(cars)
+
+#Scatter plot matrix
+
+pairs(cars)
+
+#Correlation Matrix
+
+cor(cars)
+
+
+#Regression model and summary
+
+model.car <- lm(MPG~.,data=cars)
+
+summary(model.car)
