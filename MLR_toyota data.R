@@ -29,16 +29,16 @@ pairs(Cars[,1:5],
 library(car)
 
 library(readxl)
-Toyoto <- read_excel("Toyoto.xlsx")
+
+Toyoto <- read_excel(file.choose())
 View(Toyoto)
 colnames(Toyoto)
 
 #Remove some unnecessary columns from the dataset
-dataset <- subset(Toyoto,select = c(1,3,4,7,9,13,14,15,16,18))
+dataset <- subset(Toyoto,select = c(1,3,4,7,9,13,14,15,16,17,18))
+
 
 colnames(dataset)
-install.packages("deplyr")
-#check with Srini for the error
 
 #Scatter plot matrix
 pairs(dataset)
@@ -69,7 +69,7 @@ ld.vars
 
 #Regression Model Excl Cylinders 
 
-model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset)
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight,data=dataset)
 
 summary(model.Toyota)
 
@@ -94,6 +94,19 @@ qqPlot(model.Toyota)
 #Deletion Diagnostic
 
 influenceIndexPlot(model.Toyota)
+
+#Model without cc and doors
+model.Toyota <- lm(Price~Age_08_04+KM+HP+Gears+Quarterly_Tax+Weight,data=dataset)
+
+summary(model.Toyota)
+
+#Predictions
+pred <- predict(model.Toyota)
+
+final <- data.frame(dataset,"pred"=pred,dataset$Price-pred)
+
+View(final)
+
 
 #Removing outliers
 
@@ -127,42 +140,16 @@ qqPlot(model.Toyota)
 
 influenceIndexPlot(model.Toyota)
 
-#Removing 958
+#Removing 147,958
 
-dataset2 <- dataset1[-c(958),]
+#Looking at the qqplot,
 
-dim(dataset2)
+dataset1 <- dataset[-c(81,222,602,147,958),]
 
-model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset2)
+dim(dataset)
+dim(dataset1)
 
-summary(model.Toyota)
-
-#Deletion Diagnostic
-
-influenceIndexPlot(model.Toyota)
-
-#Removing 988
-
-dataset3 <- dataset2[-c(988),]
-
-dim(dataset3)
-
-model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset3)
-
-summary(model.Toyota)
-
-
-#Deletion Diagnostic
-
-influenceIndexPlot(model.Toyota)
-
-
-#Removing 652
-
-dataset4 <- dataset3[-c(652),]
-dim(dataset4)
-
-model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset4)
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
 
 summary(model.Toyota)
 
@@ -170,75 +157,166 @@ summary(model.Toyota)
 
 influenceIndexPlot(model.Toyota)
 
-#MultiCollinearity
-vif(model.Toyota)
+qqPlot(model.Toyota)
 
-#Diagnostic plot: Residual plot,QQplot,Std residual vs fitted
-plot(model.Toyota)
+#Removing 146,956 and other outliers from the original dataset
+dataset1 <- dataset[-c(81,222,602,147,958,146,956),]
 
-#Residuals vs Regressors
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
 
-residualPlots(model.Toyota)
+summary(model.Toyota)
 
-#Added variable plots
-avPlots(model.Toyota)
+influenceIndexPlot(model.Toyota)
 
-#QQ plots of standardized residuals
+qqPlot(model.Toyota)
+
+#Removing 145,954
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 144,952
+
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 143,950
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 142,948
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
 
 qqPlot(model.Toyota)
 
 
+#Removing 141,946
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
 
 
+#Removing 140,944
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
 
 
+#Removing 139,942
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944,139,942),]
+
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 138,940
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944,139,942,138,940),]
 
 
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 137,938
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944,139,942,138,940,137,938),]
 
 
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 136,936
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944,139,942,138,940,137,938,136,936),]
 
 
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 135,934
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944,139,942,138,940,137,938,136,936,135,934),]
 
 
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
+
+#Removing 134,932
+dataset1 <- dataset[-c(81,222,602,147,958,146,956,145,954,144,952,143,950,142,948,141,946,140,944,139,942,138,940,137,938,136,936,135,934,134,932),]
 
 
+model.Toyota <- lm(Price~Age_08_04+KM+HP+cc+Doors+Gears+Weight,data=dataset1)
+
+summary(model.Toyota)
+
+influenceIndexPlot(model.Toyota)
+
+qqPlot(model.Toyota)
 
 
+#R2=.875, Adj. R2=.8744
 
+colnames(dataset1)
+pred <- predict(model.Toyota)
 
+final <- data.frame(dataset1,"pred"=pred,dataset1$Price-pred)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+View(final)
