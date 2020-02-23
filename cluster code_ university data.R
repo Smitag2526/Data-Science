@@ -1,5 +1,35 @@
 #load Universities data
 
+
+library(Hmisc)
+
+describe(mydata1)
+
+library(moments)
+skewness(mydata1$Murder)
+skewness(mydata1$Rape)
+skewness(mydata1$Assault)
+skewness(mydata1$UrbanPop)
+
+#Urban population is left skewed
+
+boxplot(mydata1$Murder,horizontal=T)
+hist(mydata1$Murder)
+
+boxplot(mydata1$Assault,horizontal=T)
+hist(mydata1$Assault)
+
+boxplot(mydata1$UrbanPop,horizontal=T)
+hist(mydata1$UrbanPop)
+
+box<-boxplot(mydata1$Rape,horizontal=T)
+box$out
+which(mydata1$Rape %in% box$out)
+# observations on row 2 and 28 are outliers
+
+pairs(mydata1)
+cor(mydata1[,-1])
+
 mydata1 <- read.csv("/R Excel Sessions/Day 4/Universities.csv")
 
 head(mydata1)
